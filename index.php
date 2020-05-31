@@ -61,6 +61,7 @@ $materias = "SELECT idasignaturas,codigoasignaturas,nombreasignatura,nota
             <tr>
                 <th>Asignatura</th>
                 <th>Codigo</th>
+                <th>Nota</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
@@ -74,6 +75,8 @@ $materias = "SELECT idasignaturas,codigoasignaturas,nombreasignatura,nota
                     <td>".$regmaterias['codigoasignaturas']."</td>
                     <td>".$regmaterias['nombreasignatura']."</td>
                     <td>".$regmaterias['nota']."</td>
+                    <td><a href='editarasignaturas.php?id=".$regmaterias['idasignaturas']." '>Editar</a></td>
+                    <td><a href='eliminarasignatura.php?id=".$regmaterias['idasignaturas']." '>Eliminar</a></td>
                     </tr>";                }
                 ?>
            </tr>
