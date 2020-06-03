@@ -2,7 +2,40 @@
 include("conexion/conexionbd.php");
 $sql="SELECT idTipoAlumno,TipoUsuario FROM tipo_usuario";
 $resultado=$conexion->query($sql);
-
+if (!empty($_POST)) {
+	$nombre=mysqli_real_escape_string($conexion,$_POST['nombrealumno']);
+	$genero=$_POST['genero'];
+	$usuario=mysqli_real_escape_string($conexion,$_POST['user']);
+	$tipouser=$_POST['tipo_user'];
+	$tel=mysqli_real_escape_string($conexion,$_POST['telefono']);
+	$correo=mysqli_real_escape_string($conexion,$_POST['email']);
+	$password=mysqli_real_escape_string($conexion,$_POST['pass']);
+	$password_encriptada=sha1($password);
+	$sqluser="SELECT idUsuario FROM usuarios WHERE NombreU='$usuario'";
+	$resultadouser=$conexion->query($sqluser);
+	$filas=$resultadouser->num_rows;
+	if ($filas>0) {
+		echo "<script>alert('El usuario ya existe');
+		window.location='registrousuario.php';</script>";
+	}
+	else{
+		$sqlalumno="INSERT INTO alumno(nombreA,telefonoA,generoA,correoA)
+					VALUES ('$nombre','$tel','$genero','$correo')";
+		$resultadoAlumno=$conexion->query($sqlalumno);
+		$idalumno=$conexion->insert_id;
+		$sqlusuario="INSERT INTO usuarios(nombreU,passwordU,idalumno,idTipoUsuario)
+					VALUES ('$nombre','$password_encriptada','$idalumno','$tipouser')";
+		$resultadousuario=$conexion->query($sqlusuario);
+		if ($resultadousuario>0) {
+			echo "<script>alert('Registro exitoso');
+				window.location='index.php';</script>";
+		}
+		else{
+				echo "<script>alert('ERROR al registrarse');
+				window.location='registrousuario.php';</script>";
+		}		
+	}
+}
 
 ?>
 <!DOCTYPE html>
